@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 要求使用dao接口(DeptDao类)的全限定名称。 -->
+<mapper namespace="com.ahead.dao.DeptDao">
+
+    <!-- parameterType可不写，非强制的，mybatis通过反射机制能识别接口参数的数据类型
+         如果参数有多个，就不建议使用了，多个参数可在dao接口的方法中使用@Param
+     -->
+    <insert id="addDept" parameterType="ahead.pojo.Dept">
+        insert into dept (dept_name,db_source)
+        values (#{deptName},DATABASE());
+    </insert>
+
+    <select id="queryById" resultType="ahead.pojo.Dept" parameterType="int">
+        select * from dept where dept_no =  #{id};
+    </select>
+
+
+    <select id="queryAll" resultType="ahead.pojo.Dept">
+        select * from dept;
+    </select>
+
+</mapper>

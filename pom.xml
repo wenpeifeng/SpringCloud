@@ -7,22 +7,40 @@
     <groupId>org.example</groupId>
     <artifactId>springcloud</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>springcloud-api</module>
+        <module>springcloud-provider-dept-8001</module>
+        <module>springcloud-consumer-dept-80</module>
+    </modules>
 
     <properties>
+        <!-- 表示 maven构建项目使用编码，避免中文乱码-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 告诉maven，写的代码是在jdk1.8上编译的-->
         <maven.compiler.source>1.8</maven.compiler.source>
         <!-- 程序应该运行在1.8的jdk上-->
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!--统一管理下面依赖的版本-->
         <log4j.version>1.2.17</log4j.version>
         <lombok.version>1.18.20</lombok.version>
+        <junit.version>4.13</junit.version>
+        <druid.version>1.0.28</druid.version>
+        <mysql.version>5.1.38</mysql.version>
     </properties>
 
     <!-- 设置打包方式 -->
     <packaging>pom</packaging>
 
+    <!--dependencyManagement只是声明依赖，并不实现引入，因此子项目需要显式的声明需要用的依赖。
+        如果不在子项目中声明依赖，是不会从父项目中继承下来的；
+        只有在子项目中写了该依赖项，并未指定具体版本，才会从父项目中继承该项，并且version和scope都读取自父pom;
+        另外如果子项目中指定了版本号，那么会使用子项目中指定的jar版本。
+　　dependencies即使在子模块中不写该依赖项，那么子模块仍然会从父项目中继承该依赖项（全部继承）。
+  -->
     <dependencyManagement>
         <dependencies>
-            <!-- springCloud 依赖 -->
+            <!-- 1.springCloud 依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -30,7 +48,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- 由于springCloud必须依赖springboot，因此还需要引入springboot依赖 -->
+
+            <!-- 2.由于springCloud必须依赖springboot，因此还需要引入springboot依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -38,11 +57,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- 3.数据库相关依赖-->
             <!--加入mysql驱动依赖 -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.29</version>
+                <version>${mysql.version}</version>
             </dependency>
             <!--数据源Druid 是阿里巴巴开源平台上一个数据库连接池实现，结合了 C3P0、DBCP 等 DB 池的优点，同时加入了日志监控。
                 Druid 可以很好的监控 DB 池连接和 SQL 的执行情况，天生就是针对监控而生的 DB 连接池。
@@ -50,7 +71,21 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
-                <version>1.2.9</version>
+                <version>${druid.version}</version>
+            </dependency>
+            <!--springboot启动器 -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.2.0</version>
+            </dependency>
+
+
+            <!-- 4.日志和测试相关-->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.2.5</version>
             </dependency>
             <!--log4j -->
             <dependency>
@@ -62,13 +97,13 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             <!--junit -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.13</version>
-                <scope>test</scope>
+                <version>${junit.version}</version>
             </dependency>
 
         </dependencies>
