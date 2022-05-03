@@ -19,13 +19,25 @@ spring:
     username: root
     password: 123456
 
+# Eureka 配置：配置服务注册中心地址
+eureka:
+  client:
+    service-url: # 配置服务注册中心地址；http://localhost/7001 是springcloud-eureka-7001模块的访问地址
+      defaultZone: http://localhost:7001/eureka/
+  instance:
+    instance-id: springcloud-provider-dept-8001 #修改Eureka上的默认描述信息status
+
+#  关闭自我保护机制，不可用的微服务会被及时踢除
+eureka.server.enable-self-preservation: false
 
 
+# info配置
+info:
+  company.name: com.ahead
 
-
-
-
-
-
-
-
+# 解决author/info页面404无法打开问题
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
