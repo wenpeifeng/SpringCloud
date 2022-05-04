@@ -23,7 +23,9 @@ public class DeptConsumerController {
      * http://localhost:8001/dept/selectDeptList 查询全部部门信息
      */
     // 拼接前缀地址
-    private static final String REST_URL_PREFIX = "http://localhost:8001";
+    //Ribbon:我们这里的地址，应该是一个变量，通过服务名来访问
+    //private static final String REST_URL_PREFIX = "http://localhost:8001";
+     private static final String REST_URL_PREFIX = "http://SPRINGCLOUD-PROVIDER-DEPT";
 
     // 消费方添加部门信息
     @RequestMapping("/consumer/dept/addDept")
